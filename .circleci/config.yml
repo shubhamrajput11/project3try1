@@ -43,6 +43,8 @@ jobs:
       - run:
           name: Build front-end
           command: |
+            pwd
+            cd ~/frontend
             npm run build
             # exit 1
       - save_cache:
@@ -59,6 +61,8 @@ jobs:
       - run:
           name: Back-end build
           command: |
+             pwd
+             cd ~/backend
              npm run build
              # exit 1
       - save_cache:
