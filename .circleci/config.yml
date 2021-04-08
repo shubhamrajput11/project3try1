@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Back-end build
           command: |
-             npm cache clean
+             npm cache clean --force
              rm -rf node_modules
              npm install
              pwd
