@@ -40,10 +40,13 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-build]
+      - node/install-packages:
+          app-dir: ~/backend_api
+          cache-path: node_modules
+          override-ci-command: npm i
       - run:
           name: Build front-end
           command: |
-            npm install
             npm run build
             # exit 1
       - save_cache:
@@ -57,10 +60,14 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
+            - node/install-npm
+      - node/install-packages:
+          app-dir: ~/backend_api
+          cache-path: node_modules
+          override-ci-command: npm i
       - run:
           name: Back-end build
           command: |
-            npm install
             npm run build
              # exit 1
       - save_cache:
