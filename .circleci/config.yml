@@ -43,8 +43,7 @@ jobs:
       - run:
           name: Build front-end
           command: |
-            pwd
-            cd ~/project/frontend
+            npm install
             npm run build
             # exit 1
       - save_cache:
@@ -61,10 +60,8 @@ jobs:
       - run:
           name: Back-end build
           command: |
-             npm install
-             npm start
-             pwd
-             npm run build
+            npm install
+            npm run build
              # exit 1
       - save_cache:
           paths: [backend/node_modules]
