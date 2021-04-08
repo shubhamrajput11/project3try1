@@ -62,8 +62,7 @@ jobs:
           name: Back-end build
           command: |
              cd ~/project/backend
-             npm cache clean --force
-             rm -rf node_modules && rm ./package-lock.json && npm install
+             npm install
              npm start
              pwd
              npm run build
