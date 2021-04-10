@@ -90,8 +90,22 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # Restore from cache
-      # Your job code here
+      - restore_cache:
+          keys: [test-backend]
+      - run:
+          name: test-backend
+          command: |
+           # pwd
+           # cd ~/project/backend
+           # pwd
+           # ls
+           # npm install
+           # #npm init --yes
+            npm run test
+             # exit 1
+      - save_cache:
+          paths: [backend/node_modules]
+          key: test-backend
             
   scan-frontend:
     docker:
