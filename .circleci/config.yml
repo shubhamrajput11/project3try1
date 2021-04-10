@@ -44,6 +44,9 @@ jobs:
           name: Build front-end
           command: |
             pwd
+            cd ~/project/frontend
+            pwd
+            ls
             npm install
             #npm init --yes
             npm run build
@@ -63,6 +66,9 @@ jobs:
           name: Back-end build
           command: |
             pwd
+            cd ~/project/backend
+            pwd
+            ls
             npm install
             #npm init --yes
             npm run build
