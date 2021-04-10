@@ -95,11 +95,11 @@ jobs:
       - run:
           name: test-backend
           command: |
-           # pwd
-           # cd ~/project/backend
-           # pwd
-           # ls
-           # npm install
+            pwd
+            cd ~/project/backend
+            pwd
+            ls
+            npm install
            # #npm init --yes
             npm run test
              # exit 1
