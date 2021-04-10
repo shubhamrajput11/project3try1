@@ -70,9 +70,7 @@ jobs:
             pwd
             ls
             npm install
-            #npm init --yes
             npm run build
-             # exit 1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -99,10 +97,8 @@ jobs:
             cd ~/project/backend
             pwd
             ls
-            npm install
-            #npm init --yes
-            npm run test
-            # exit 1
+            #npm install    // uncomment this sara
+            #npm run test   // uncomment this sara
       - save_cache:
           paths: [backend/node_modules]
           key: test-backend           
@@ -111,16 +107,40 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # Restore from cache
-      # Your job code here
+      - restore_cache:
+          keys: [scan-frontend]
+      - run:
+          name: scan-frontend scan
+          command: |
+            pwd
+            cd ~/project/frontend
+            pwd
+            ls
+            npm install
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: test-frontend  
 
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # Restore from cache
-      # Your job code here
+      - restore_cache:
+          keys: [scan-backend]
+      - run:
+          name: scan-backend scan
+          command: |
+            pwd
+            cd ~/project/backend
+            pwd
+            ls
+            npm install
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [backend/node_modules]
+          key: test-backend 
 
   deploy-infrastructure:
     docker:
