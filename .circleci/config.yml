@@ -4,32 +4,38 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
-      # Add parameter here   
+      workflow_id:
+      type: "string" 
     steps:
       - run:
           name: Destroy environments
           when: on_fail
           command: |
-            # Your code here
-            exit 1
+            aws cloudformation delete-stack --stack-name backend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name frontend-<< parameters.workflow_id >>
+            aws s3 rb s3://udapeople-<< parameters.workflow_id >> --force
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
-      # Add parameter here     
+      workflow_id:
+        type: "string"    
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
+            #SUCCESS = 1
+	    SUCCESS=$(curl -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
+                --request GET \
+                https://api.memstash.io/values/migrations-<< parameters.workflow_id >>)
+            echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+              cd backend
+              npm i
+              npm run migration:revert
             fi
             
 jobs:
@@ -43,14 +49,9 @@ jobs:
       - run:
           name: Build front-end
           command: |
-            pwd
             cd ~/project/frontend
-            pwd
-            ls
             npm install
-            #npm init --yes
             npm run build
-            # exit 1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -65,15 +66,17 @@ jobs:
       - run:
           name: Back-end build
           command: |
-            pwd
             cd ~/project/backend
-            pwd
-            ls
             npm install
             npm run build
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - slack/notify:
+          channel: C01U1H8F22X
+          event: fail
+          # mentions: "@here"
+          template: basic_fail_1
 
   test-frontend:
     docker:
@@ -187,18 +190,18 @@ jobs:
       - image: ansible
     steps:
       - checkout
-      # Add ssh keys with fingerprint
-      # attach workspace
+      - add_ssh_keys:
+          fingerprints: ["e5:fd:9e:a1:0e:d4:dc:e7:37:c4:2b:fe:24:cd:b3:e5"]
+      - restore_cache:
+          keys: [configure-infrastructure]
       - run:
           name: Install dependencies
           command: |
-            # Your code here
-            exit 1
+            apk add --update ansible # install the dependencies needed for your playbook
       - run:
           name: Configure server
           command: |
-            # Your code here
-            exit 1
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
