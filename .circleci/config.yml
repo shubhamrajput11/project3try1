@@ -154,10 +154,10 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              #--tags project=your-tag \
-              # --stack-name "your back-end stack name with workflow id" \
-              # --parameter-overrides ID="your workflow id"  
-              exit 1
+              --tags project=udapeople-tag \
+              --stack-name "udapeople-stack" \
+              --parameter-overrides ID="kk1j287dhjppm2410"  
+              exit 0
       - run:
           name: Ensure front-end infrastructure exist
           command: |
