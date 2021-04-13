@@ -53,7 +53,8 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-  build-frontend: 
+  
+   build-frontend: 
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -69,7 +70,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-  cleanup: 
+   cleanup: 
     docker:
       - image: amazon/aws-cli
     steps:
@@ -105,7 +106,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
           
-  cloudfront-update: 
+   cloudfront-update: 
     docker: 
       - image: amazon/aws-cli
     steps: 
@@ -138,7 +139,7 @@ jobs:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment: 
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
-  configure-infrastructure: 
+   configure-infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
     steps:
@@ -170,7 +171,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
   
-  deploy-backend: 
+   deploy-backend: 
     docker:
       - image: python:3.7-alpine3.11
     steps:
@@ -201,7 +202,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
           
-  deploy-frontend: 
+   deploy-frontend: 
     docker:
        # Docker image here that supports AWS CLI
       - image: python:3.7-alpine3.11
@@ -240,10 +241,10 @@ jobs:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}       
-  deploy-infrastructure: 
+   deploy-infrastructure: 
      docker:
        - image: amazon/aws-cli
-    steps:
+     steps:
       - checkout
       - run:
           command: |
@@ -309,7 +310,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
           
-  run-migrations: 
+   run-migrations: 
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -333,20 +334,20 @@ jobs:
           name: Send migration results to memstash
           command: |
              cd backend
-            if grep -q "success" migrations-${CIRCLE_WORKFLOW_ID}.txt
-            then
+             if grep -q "success" migrations-${CIRCLE_WORKFLOW_ID}.txt
+             then
               curl -H "Content-Type: text/plain" -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
               --request PUT \
               --data '1' \
               https://api.memstash.io/values/migrations-${CIRCLE_WORKFLOW_ID:0:7}
-            else
+             else 
               curl -H "Content-Type: text/plain" -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
               --request PUT \
               --data '0' \
               https://api.memstash.io/values/migrations-${CIRCLE_WORKFLOW_ID:0:7}
-            fi
-            echo Key: migrations-${CIRCLE_WORKFLOW_ID:0:7} 
-  scan-backend: 
+             fi
+             echo Key: migrations-${CIRCLE_WORKFLOW_ID:0:7} 
+   scan-backend: 
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -367,7 +368,7 @@ jobs:
           paths: [backend/node_modules]
           key: test-backend 
           
-  scan-frontend: 
+   scan-frontend: 
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -385,7 +386,7 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
           
-  smoke-test: 
+   smoke-test: 
     docker:
       # Lightweight Docker image
       - image: python:3.7-alpine3.11
@@ -429,7 +430,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
           
-  test-backend: 
+   test-backend: 
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -446,7 +447,7 @@ jobs:
           paths: [backend/node_modules]
           key: backend-build  
           
-  test-frontend: 
+   test-frontend: 
     docker:
       - image: circleci/node:13.8.0
     steps:
