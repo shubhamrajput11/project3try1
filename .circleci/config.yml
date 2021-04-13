@@ -144,32 +144,7 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: ["e5:fd:9e:a1:0e:d4:dc:e7:37:c4:2b:fe:24:cd:b3:e5"]
-      - attach_workspace:
-          at: ~/project
-      - run:
-        name: Install ansible.
-        command: |
-          apk add --update ansible
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar gzip ansible nodejs npm curl
-            pip install awscli
-      - run:
-          name: Check there is .env file at workspace.
-          command: |
-            cat backend/.env
-      - run:
-          name: Configure server
-          command: |
-            cd .circleci/ansible
-            echo "Inventory content"
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      
   
    deploy-backend: 
     docker:
