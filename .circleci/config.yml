@@ -1,5 +1,5 @@
 --- 
-  commands: 
+commands: 
   destroy-environment: 
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -36,7 +36,7 @@
               npm i
               npm run migration:revert
             fi
- jobs: 
+jobs: 
    build-backend: 
     docker:
       - image: circleci/node:13.8.0
