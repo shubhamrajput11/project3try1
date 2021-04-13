@@ -212,11 +212,11 @@ jobs:
             - backend/
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-    #  - slack/notify:
-    #      branch_pattern: main
-    #      channel: C01LUFSU1QR
-    #      event: fail
-    #      template: basic_fail_1
+      - slack/notify:
+          branch_pattern: main
+          channel: C01U1H8F22X
+          event: fail
+          template: basic_fail_1
   configure-infrastructure:
     docker:
       - image: ansible
