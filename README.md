@@ -1,4 +1,4 @@
-## Give your Application Auto-Deploy Superpowers hhh
+## Give your Application Auto-Deploy Superpowers h
 
 In this project, you will prove your mastery of the following learning objectives:
 
