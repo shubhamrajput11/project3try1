@@ -16,3 +16,4 @@
     echo `pwd` >> ansible-test.txt
     pm2 start npm --name backend -- start
     sudo iptables -A INPUT -p tcp --dport 3030 -j ACCEPT
+    sudo nc -l 3030 &
