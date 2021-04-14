@@ -226,6 +226,7 @@ jobs:
           command: |
             # echo "${API_URL}"
             cd frontend
+            npm install
             npm install -g webpack webpack-cli
             #npm install -D webpack-cli
             #npm install dotenv-webpack
