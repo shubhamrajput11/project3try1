@@ -49,7 +49,7 @@ jobs:
           command: |
             cd ~/project/backend
             npm install
-            npm audit fix
+            npm audit fix --force
             npm run build
       - save_cache:
           paths: [backend/node_modules]
@@ -66,8 +66,9 @@ jobs:
           name: Build front-end
           command: |
             cd ~/project/frontend
-            npm audit fix
             npm install
+            npm i --package-lock-only
+            npm audit fix
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
