@@ -250,7 +250,10 @@ jobs:
      docker:
        - image: amazon/aws-cli
      steps:
-      - checkout            
+      - checkout  
+      - run:
+          command: |
+            yum -y install tar gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
