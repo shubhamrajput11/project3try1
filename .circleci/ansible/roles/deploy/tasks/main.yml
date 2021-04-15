@@ -1,14 +1,6 @@
 ---
 - name: "install package dependencies"
   shell: |
-    sudo env ENVIRONMENT=production
-    sudo env TYPEORM_CONNECTION=postgres
-    sudo env TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts
-    sudo env TYPEORM_HOST=udapeople-db.ckewue1dqjdj.us-west-2.rds.amazonaws.com
-    sudo env TYPEORM_PORT=5432
-    sudo env TYPEORM_USERNAME=postgres
-    sudo env TYPEORM_PASSWORD=postgres123
-    sudo env TYPEORM_DATABASE=udapeopleDB
     cd /home/ubuntu
     sudo apt-get install git
     sudo apt-get install build-essential
@@ -26,7 +18,15 @@
     echo "response.end("Hello World\n");" >> app.js
     echo "});" >> app.js
     echo "server.listen(3000);" >> app.js
-    echo "console.log("Server running at http://127.0.0.1:80/");"
+    echo "console.log("Server running at http://127.0.0.1:3000/");"
     pm2 start app.js
     sudo env PATH=$PATH:/usr/local/bin pm2 startup -u ubuntu
+    sudo env ENVIRONMENT=production
+    sudo env TYPEORM_CONNECTION=postgres
+    sudo env TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts
+    sudo env TYPEORM_HOST=udapeople-db.ckewue1dqjdj.us-west-2.rds.amazonaws.com
+    sudo env TYPEORM_PORT=5432
+    sudo env TYPEORM_USERNAME=postgres
+    sudo env TYPEORM_PASSWORD=postgres123
+    sudo env TYPEORM_DATABASE=udapeopleDB
     #sudo nc -l 3030 &
