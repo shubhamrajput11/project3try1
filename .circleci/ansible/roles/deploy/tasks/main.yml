@@ -1,19 +1,24 @@
 ---
-- name: "Move backend files to server."
-  copy:
-    src: /root/project/backend_artifact.tar.gz
-    dest: ~/home/ubuntu
-
 - name: "install package dependencies"
   shell: |
-    cd ~/home/ubuntu
-    tar -xzvf backend_artifact.tar.gz -C backend
-    rm backend_artifact.tar.gz
-    cd backend/
-    # npm install && npm run build
-    npm audit fix && npm run build
-    cd dist
-    echo `pwd` >> ansible-test.txt
-    pm2 start npm --name backend -- start
-    sudo iptables -A INPUT -p tcp --dport 3030 -j ACCEPT
-    sudo nc -l 3030 &
+    cd /home/ubuntu
+    sudo apt-get install git
+    sudo apt-get install build-essential
+    sudo apt-get install curl openssl libssl-dev
+    git clone https://github.com/joyent/node.git
+    cd node
+    git checkout v0.10.24
+    ./configure
+    make
+    sudo make install
+    sudo npm install pm2 -g
+    echo "var http = require('http');" >> app.js
+    echo "var server = http.createServer(function (request, response) {" >> app.js
+    echo "response.writeHead(200, {"Content-Type": "text/plain"});" >> app.js
+    echo "response.end("Hello World\n");" >> app.js
+    echo "});" >> app.js
+    echo "server.listen(3000);" >> app.js
+    echo "console.log("Server running at http://127.0.0.1:80/");"
+    pm2 start app.js
+    sudo env PATH=$PATH:/usr/local/bin pm2 startup -u ubuntu
+    #sudo nc -l 3030 &
