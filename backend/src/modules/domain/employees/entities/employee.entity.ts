@@ -1,4 +1,5 @@
-import * as moment from 'moment-timezone';
+//import * as moment from 'moment-timezone';
+declare var moment: any;
 import { AggregateRoot } from '../../../common/entities';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { CreateEmployee } from '../commands/create-employee.command';
