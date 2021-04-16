@@ -82,7 +82,7 @@ jobs:
           name: Get old stack workflow id
           command: |
             # your code here
-            export OldWorkflowID="the id here"
+            export OldWorkflowID="kk1j287dhjppm2410"
             export STACKS=[] #put the list of stacks here
       - run:
           name: Remove old stacks and files
@@ -199,6 +199,7 @@ jobs:
           command: |
             pwd            
             cd .circleci/ansible
+            export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i inventory.txt deploy-backend.yml
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
