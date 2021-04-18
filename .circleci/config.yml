@@ -220,8 +220,11 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            BACKEND_IP=$(curl -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
-              --request GET https://api.memstash.io/values/hosts-deployed-${CIRCLE_WORKFLOW_ID:0:7})
+            #adding for test
+            BACKEND_IP=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
+
+            #BACKEND_IP=$(curl -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
+            #  --request GET https://api.memstash.io/values/hosts-deployed-${CIRCLE_WORKFLOW_ID:0:7})
             export API_URL="http://${BACKEND_IP}:3000"
             echo "${API_URL}"
       - run:
@@ -234,8 +237,10 @@ jobs:
             #npm install -D webpack-cli
             #npm install dotenv-webpack
             #npm audit fix
-            BACKEND_IP=$(curl -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
-                --request GET https://api.memstash.io/values/hosts-deployed-${CIRCLE_WORKFLOW_ID:0:7})
+            #adding for testing
+            BACKEND_IP=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
+            #BACKEND_IP=$(curl -H "token: 32f0f419-eff1-45b7-9ac4-fe8b3ab08734" \
+            #    --request GET https://api.memstash.io/values/hosts-deployed-${CIRCLE_WORKFLOW_ID:0:7})
             export API_URL="http://${BACKEND_IP}:3000"
             echo "API_URL=${API_URL}"
             echo API_URL=$API_URL > .env
